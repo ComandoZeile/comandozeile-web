@@ -1,0 +1,30 @@
+$circle-size : 250px;
+$circle-pos: var(--circle-pos);
+$circle-count: var(--circle-count);
+
+
+.circle-wrapper {
+  position: relative;
+
+  .circle {
+    position: absolute;
+    margin: 0 50%;
+    transform: translate(-50%, 0);
+    width: $circle-size;
+    height: $circle-size;
+    top: $circle-pos;
+    border: 6px solid;
+    color: #a8a8a8;
+    border-radius: 50%;
+
+    @for $i from 1 to str-length($circle-count) {
+      &:nth-child(#{$i}) {
+        top: $circle-pos;
+        width: $circle-size;
+        height: $circle-size;
+        $circle-size: $circle-size + 160px !global;
+        $circle-pos: calc(#{$circle-pos} - 80px) !global;
+      }
+    }
+  }
+}

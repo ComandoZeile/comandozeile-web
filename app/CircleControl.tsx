@@ -1,52 +1,55 @@
-'use client';
+"use client";
 
-import { ReactElement, useEffect, useState } from "react";
+import {ReactElement, useEffect, useState} from "react";
+import { useWindowSize, WindowSize } from "@/components/windowEvents";
+import { useStyleProperty } from "@/components/documentEvents";
+
+import "@/styles/circles.scss";
+
 
 export default function CircleControl() {
-    if (typeof window !== "undefined" && typeof document !== "undefined") {
+    const [mounted, setMounted] = useState<boolean>(false);
 
-        const root = document.documentElement;
-        const circleSize: number = 250;
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-        const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-        const [windowHeight, setWindowHeight] = useState<number>(window.innerHeight);
+    const { windowWidth, windowHeight }: WindowSize = useWindowSize();
+    console.log(windowWidth, " ------ ", windowHeight);
 
-        const [circlePos, setCirclePos] = useState<string>(windowHeight / 2 - circleSize / 2 - 14 + "px");
-        root?.style.setProperty("--circle-pos", circlePos);
+    const circleSize: number = 250;
 
-        let circles: Array<ReactElement> = [];
-        let index: number = 1;
-        let newCircleSize: number = circleSize + 12;
-        let addCircle: boolean = true;
-        while (addCircle) {
-            if (windowWidth <= newCircleSize && windowHeight <= newCircleSize) {
-                addCircle = false;
-            }
+    const [circlePos, setCirclePos] = useState<string>(windowHeight / 2 - circleSize / 2 - 14 + "px");
+    useStyleProperty("--circle-pos", circlePos);
 
-            circles.push(<div className="circle" key={`circle-${index}`}></div>);
-            newCircleSize = newCircleSize + 160;
-            index++;
-        }
+    useEffect(() => {
+        setCirclePos(windowHeight / 2 - circleSize / 2 - 14 + "px");
+    }, [windowWidth, windowHeight]);
 
-        root?.style.setProperty("--circle-count", circles.length.toString());
+    let circles: Array<any> = [];
+    let newCircleSize: number = circleSize + 12;
+    for (let index:number = 1; windowWidth >= newCircleSize || windowHeight >= newCircleSize; index++) {
+        console.log(newCircleSize, " --- new circle size");
 
-        useEffect(() => {
-            function handleWindowResize() {
-                setWindowWidth(() => window.innerWidth);
-                setWindowHeight(() => window.innerHeight);
-            }
+        circles = [...circles, <div className="circle" key={`circle-${index}`}></div>];
+        newCircleSize += 160;
 
-            window.addEventListener("resize", handleWindowResize);
-
-            return () => {
-                window.removeEventListener("resize", handleWindowResize);
-            }
-        }, [windowWidth, windowHeight]);
-
-        return (
-            <div className="circle-wrapper">
-                {circles}
-            </div>
-        );
+        console.log("for infos");
+        console.log(index);
+        console.log(newCircleSize);
+        console.log(circles);
     }
+
+    console.log(`circles:`);
+    console.log(circles);
+    useStyleProperty("--circle-count", circles.length.toString());
+
+    console.log(`circles before return:`);
+    console.log(circles);
+    return mounted ? (
+        <div className="circle-wrapper">
+            {circles}
+            <p>Test</p>
+        </div>
+    ) : <div/>;
 }
