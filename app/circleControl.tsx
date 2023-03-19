@@ -1,8 +1,8 @@
 "use client";
 
-import {ReactElement, useEffect, useState} from "react";
-import { useWindowSize, WindowSize } from "@/components/windowEvents";
-import { useStyleProperty } from "@/components/documentEvents";
+import { useEffect, useState } from "react";
+import { useWindowSize, WindowSize } from "@/hooks/windowEvents";
+import { useStyleProperty } from "@/hooks/documentEvents";
 
 import "@/styles/circles.scss";
 
@@ -15,7 +15,6 @@ export default function CircleControl() {
     }, []);
 
     const { windowWidth, windowHeight }: WindowSize = useWindowSize();
-    console.log(windowWidth, " ------ ", windowHeight);
 
     const circleSize: number = 250;
 
@@ -28,28 +27,17 @@ export default function CircleControl() {
 
     let circles: Array<any> = [];
     let newCircleSize: number = circleSize + 12;
+    useStyleProperty("--circle-size", newCircleSize.toString());
     for (let index:number = 1; windowWidth >= newCircleSize || windowHeight >= newCircleSize; index++) {
-        console.log(newCircleSize, " --- new circle size");
-
         circles = [...circles, <div className="circle" key={`circle-${index}`}></div>];
         newCircleSize += 160;
-
-        console.log("for infos");
-        console.log(index);
-        console.log(newCircleSize);
-        console.log(circles);
     }
 
-    console.log(`circles:`);
-    console.log(circles);
     useStyleProperty("--circle-count", circles.length.toString());
 
-    console.log(`circles before return:`);
-    console.log(circles);
     return mounted ? (
         <div className="circle-wrapper">
             {circles}
-            <p>Test</p>
         </div>
     ) : <div/>;
 }
