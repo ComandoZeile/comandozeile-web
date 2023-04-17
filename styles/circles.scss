@@ -1,5 +1,6 @@
 $circle-size : 250px;
-$circle-pos: var(--circle-pos);
+$circle-pos-x: var(--circle-pos-x);
+$circle-pos-y: var(--circle-pos-y);
 $circle-count: var(--circle-count);
 
 
@@ -8,22 +9,19 @@ $circle-count: var(--circle-count);
 
   .circle {
     position: absolute;
-    margin: 0 50%;
-    transform: translate(-50%, 0);
-    width: $circle-size;
-    height: $circle-size;
-    top: $circle-pos;
     border: 6px solid;
     color: #a8a8a8;
     border-radius: 50%;
+    transform: translate(-50%, 0);
 
     @for $i from 1 to str-length($circle-count) {
       &:nth-child(#{$i}) {
-        top: $circle-pos;
+        top: $circle-pos-y;
+        left: $circle-pos-x;
         width: $circle-size;
         height: $circle-size;
         $circle-size: $circle-size + 160px !global;
-        $circle-pos: calc(#{$circle-pos} - 80px) !global;
+        $circle-pos-y: calc(#{$circle-pos-y} - 80px) !global;
       }
     }
   }

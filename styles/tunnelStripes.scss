@@ -1,4 +1,4 @@
-$stripe-angle: 360deg;
+$stripe-angle: 0deg;
 
 .tunnel-stripe-wrapper {
   position: relative;
@@ -7,14 +7,13 @@ $stripe-angle: 360deg;
     position: absolute;
     width: 40px;
     height: 6px;
-    transform: rotate($stripe-angle);
     background-color: #a8a8a8;
 
     // each stripe has an 18-degree angle to the next one so that 90°:5 stripes per block => 18°
     @for $i from 1 to 21 {
       &:nth-child(#{$i}) {
         transform: rotate($stripe-angle);
-        $stripe-angle: $stripe-angle - 18deg !global;
+        $stripe-angle: $stripe-angle + 18deg !global;
       }
     }
   }
