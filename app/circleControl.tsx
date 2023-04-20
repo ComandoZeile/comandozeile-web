@@ -17,23 +17,20 @@ export default function CircleControl() {
     const { windowWidth, windowHeight }: WindowSize = useWindowSize();
 
     const CIRCLE_BORDER: number = 12;
-    // offset because of the wrapper object hasn't the full size
-    // wrapper doesn't take up the entire space (for 1920 the size is 1904 => 16px less => 8 on each side
-    const OFFSET_X: number = 8;
-    const OFFSET_Y: number = 14;
+    const OFFSET_Y: number = CIRCLE_BORDER / 2;
     const circleSize: number = 250;
     let circles: Array<any> = [];
     let newCircleSize: number = circleSize + CIRCLE_BORDER;
 
-    const [circlePosX, setCirclePosX] = useState<string>(windowWidth / 2 - OFFSET_X + "px");
+    const [circlePosX, setCirclePosX] = useState<string>(windowWidth / 2 + "px");
     const [circlePosY, setCirclePosY] = useState<string>(windowHeight / 2 - circleSize / 2 - OFFSET_Y + "px");
     useStyleProperty("--circle-pos-x", circlePosX);
     useStyleProperty("--circle-pos-y", circlePosY);
 
     useEffect(() => {
-        setCirclePosX(windowWidth / 2 - OFFSET_X + "px");
+        setCirclePosX(windowWidth / 2 + "px");
         setCirclePosY(windowHeight / 2 - circleSize / 2 - OFFSET_Y + "px");
-    }, [windowWidth, windowHeight]);
+    }, [windowWidth, windowHeight, OFFSET_Y]);
 
     useStyleProperty("--circle-size", newCircleSize.toString());
     let index:number = 1;

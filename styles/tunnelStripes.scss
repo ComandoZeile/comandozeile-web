@@ -12,7 +12,7 @@ $stripe-angle: 0deg;
     // each stripe has an 18-degree angle to the next one so that 90°:5 stripes per block => 18°
     @for $i from 1 to 21 {
       &:nth-child(#{$i}) {
-        transform: rotate($stripe-angle);
+        //transform: rotate($stripe-angle);
         $stripe-angle: $stripe-angle + 18deg !global;
       }
     }

@@ -8,9 +8,7 @@ import "@/styles/tunnelStripes.scss";
 
 export default function TunnelStripes() {
     let stripes: Array<any> = [];
-    // offset like in circleControl.tsx + stripe should stick half in border of circle => 3px
-    const OFFSET_X: number = 8 + 3;
-    const OFFSET_Y: number = 11 + 3;
+    const OFFSET_Y: number = 3; // border of stripe = 6 -> stripe middle centered and not just upper edge half up => 6 / 2 = 3
 
     const { windowWidth, windowHeight }: WindowSize = useWindowSize();
     console.log(windowWidth, " ------ ", windowHeight);
@@ -26,7 +24,8 @@ export default function TunnelStripes() {
     console.log("windowWidth: " + windowWidth);
     // 5 stripes in each 90-degree sector
     for (let index: number = 1; index <= 6; index++) {
-        const posX = parseFloat(Math.cos(degreeToRadian(stripeAngle)).toFixed(15)) * circleRadius + windowWidth / 2 - OFFSET_X;
+        // move stripes so that they are at the right position when rotated (e.g. move vertical stripe 20px [half of size] because rotation point is the center of the object)
+        const posX = parseFloat(Math.cos(degreeToRadian(stripeAngle)).toFixed(15)) * circleRadius + windowWidth / 2;
         const posY = parseFloat(Math.sin(degreeToRadian(stripeAngle)).toFixed(15)) * circleRadius + windowHeight / 2 - OFFSET_Y;
 
         console.log("posX: " + posX);
