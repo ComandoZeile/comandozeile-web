@@ -4,30 +4,28 @@ import { useWindowSize, WindowSize } from "@/hooks/windowEvents";
 import { useStyleProperty } from "@/hooks/documentEvents";
 
 import "@/styles/tunnelStripes.scss";
+import { cos, sin } from "@/utilities/math";
 
 
 export default function TunnelStripes() {
     let stripes: Array<any> = [];
+    const STRIPE_MIDDLE: number = 20; // stripe rotation point is center -> create bigger circle with r=circleR + half stripe length, later move stripe half stripe length back
+    const OFFSET_X: number = 2;
     const OFFSET_Y: number = 3; // border of stripe = 6 -> stripe middle centered and not just upper edge half up => 6 / 2 = 3
 
     const { windowWidth, windowHeight }: WindowSize = useWindowSize();
     console.log(windowWidth, " ------ ", windowHeight);
 
-    const circleRadius: number = parseFloat(useStyleProperty("--circle-size")) / 2;
-
-    const degreeToRadian: CallableFunction = (degree: number) => {
-        return degree * Math.PI / 180;
-    }
+    const circleRadius: number = parseFloat(useStyleProperty("--circle-size")) / 2 + STRIPE_MIDDLE - OFFSET_X;
 
     let stripeAngle: number = 0;
     console.log("circleRadius: " + circleRadius);
     console.log("windowWidth: " + windowWidth);
     // 5 stripes in each 90-degree sector
-    for (let index: number = 1; index <= 6; index++) {
+    for (let index: number = 1; index <= 20; index++) {
         // move stripes so that they are at the right position when rotated (e.g. move vertical stripe 20px [half of size] because rotation point is the center of the object)
-        const posX = parseFloat(Math.cos(degreeToRadian(stripeAngle)).toFixed(15)) * circleRadius + windowWidth / 2;
-        const posY = parseFloat(Math.sin(degreeToRadian(stripeAngle)).toFixed(15)) * circleRadius + windowHeight / 2 - OFFSET_Y;
-
+        const posX: number = cos(stripeAngle) * circleRadius + windowWidth / 2 - STRIPE_MIDDLE;
+        const posY: number = sin(stripeAngle) * circleRadius + windowHeight / 2 - OFFSET_Y;
         console.log("posX: " + posX);
         console.log("fixed x:" + posX.toFixed(1));
         console.log("posY:" + posY);
