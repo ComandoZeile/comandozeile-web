@@ -1,12 +1,17 @@
+import dynamic from "next/dynamic";
 import CircleControl from "@/app/circleControl";
-import TunnelStripes from "@/app/tunnelStripes";
+
+const DynamicStripes = dynamic(() => import("@/app/tunnelStripes"), {
+   loading: () => <p>Loading</p>,
+   ssr: false
+});
 
 export default function HomePage() {
     return (
       <div>
           <div className="home">
               <CircleControl />
-              <TunnelStripes />
+              <DynamicStripes />
           </div>
       </div>
     );
