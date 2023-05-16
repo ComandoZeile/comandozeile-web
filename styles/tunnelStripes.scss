@@ -1,4 +1,40 @@
 $stripe-angle: 0deg;
+$circle-count: var(--circle-count);
+// use same opacity as in circle.scss
+//$opacity: (0.7, 0.725, 0.75, 0.775, 0.8, 0.85, 0.9, 0.95, 1);
+$opacity: 0.7;
+$color: #a8a8a8;
+
+@function gradient() {
+  $gradients: ();
+
+  @for $i from 1 through 3 {
+    //$opacity_child: nth($opacity, $i);
+    $color_transition : rgba(red($color), green($color), blue($color), $opacity);
+    $opacity: calc(#{$opacity} + 0.3 / #{$circle-count} )!global;
+
+    $stop: calc(#{$i} * 100 / #{$circle-count} * 100%);
+    //$stop: percentage($current_percentage);
+
+    // 4/20 -> 0,2 -> 20%; 10/20 -> 0.5 -> 50%; 20/20 -> 100%
+
+    $gradients: append($gradients, $color_transition $stop, comma);
+  }
+
+  @return $gradients;
+}
+
+//@function insert($prevList, $index, $element) {
+//  $newGradient: ();
+//
+//  @for $i from 1 through length($prevList) {
+//    @if $i == $index {
+//      $newGradient: append($newGradient, $element, comma);
+//    }
+//    $newGradient: append($newGradient, nth($prevList, $i));
+//  }
+//  @return $newGradient;
+//}
 
 .tunnel-stripe-wrapper {
   position: relative;
@@ -7,7 +43,9 @@ $stripe-angle: 0deg;
     position: absolute;
     width: 40px;
     height: 6px;
-    background-color: #a8a8a8;
+    //background-color: #a8a8a8;
+    $gradient: gradient();
+    background: linear-gradient(to left, $gradient);
 
     // each stripe has an 18-degree angle to the next one so that 90°:5 stripes per block => 18°
     @for $i from 1 to 21 {
@@ -16,5 +54,19 @@ $stripe-angle: 0deg;
         $stripe-angle: $stripe-angle + 18deg !global;
       }
     }
+
+    //$colors: ();
+    //$stops: ();
+    //$linear-gradients: ();
+    //@for $i from 1 to str-length($circle-count) {
+      //$colors: append($colors, rgba(red($color), green($color), blue($color), $opacity));
+      //$opacity: calc($opacity + 0.3 / $circle-count )!global;
+
+      //$current_percentage: calc($i  / str-length($circle-count));
+      //$stops: append($stops, percentage($current_percentage));
+
+      //$linear-gradients: append($linear-gradients, linear-gradient(rgba(red($color), green($color), blue($color), $opacity) $current_percentage));
+    //}
+    //background: $linear-gradients;
   }
 }

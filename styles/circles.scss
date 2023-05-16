@@ -2,6 +2,9 @@ $circle-size : 250px;
 $circle-pos-x: var(--circle-pos-x);
 $circle-pos-y: var(--circle-pos-y);
 $circle-count: var(--circle-count);
+// use same opacity as in tunnelStripes.scss
+$opacity: 0.7;
+$circle-color: #a8a8a8;
 
 
 .circle-wrapper {
@@ -10,7 +13,6 @@ $circle-count: var(--circle-count);
   .circle {
     position: absolute;
     border: 6px solid;
-    color: #a8a8a8;
     border-radius: 50%;
     transform: translate(-50%, 0);
 
@@ -20,6 +22,8 @@ $circle-count: var(--circle-count);
         left: $circle-pos-x;
         width: $circle-size;
         height: $circle-size;
+        color: rgba(red($circle-color), green($circle-color), blue($circle-color), $opacity);
+        $opacity: calc($opacity + 0.3 / $circle-count )!global;
         $circle-size: $circle-size + 160px !global;
         $circle-pos-y: calc(#{$circle-pos-y} - 80px) !global;
       }
